@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emails</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='nav.css') }}">
+</head>
+
+<body>
+    <ul>
+        <li><img src="{{ url_for('static', filename='slider-img.png') }}" class="animated-image" width="90%"
+                alt="Animated Image"></li><br>
+        <li><a href="{{ url_for('display_email') }}">Check by email</a></li><br>
+        <li><a href="{{ url_for('dashboard') }}">Check by message</a></li>
+        <br>
+        <li><a href="{{ url_for('login') }}">Log out</a></li>
+    </ul>
+    <div class="main">
+        <div class="container">
+            <h1>E-mail</h1><br>
+            {% for email in email_data %}
+            <div class="email-container">
+                <p>From: {{ email.sender }}</p>
+                <p>Body: {{ email.body[:500] }}</p>
+                <button class="check-spam-btn" data-body="{{ email.body }}">Check spam</button>
+                <p class="spam-result" style="display: none;"></p>
+            </div><br>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkSpamButtons = document.querySelectorAll('.check-spam-btn');
+            checkSpamButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const emailBody = this.getAttribute('data-body');
+                    checkSpam(emailBody, this.nextElementSibling);
+                });
+            });
+        });
+
+        function checkSpam(body, resultElement) {
+            fetch('/check_spam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        body: body
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultElement.textContent = data.prediction;
+                    resultElement.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>

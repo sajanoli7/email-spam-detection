@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='nav.css') }}">
+  <title>Login Page</title>
+</head>
+
+<body>
+  <ul>
+    <li><img src="{{ url_for('static', filename='slider-img.png') }}" class="animated-image" width="90%"
+        alt="Animated Image"></li><br>
+    <li><a href="{{ url_for('login') }}">Login</a></li><br>
+    <li><a href="{{ url_for('register') }}">Register</a></li>
+
+  </ul>
+  <div class="main">
+    <div class="container" id="log">
+      <h2>Login</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+        {{ form.hidden_tag() }}
+        <label for="username">&nbsp; Username:</label>
+        {{ form.username }}
+        <label for="password">&nbsp; Password:</label>
+        {{ form.password }}
+        <button type="submit">Login</button>
+      </form>
+      <p><br>
+        Don't have an account?
+        <a class="the123" href="{{ url_for('register') }}">Register here</a>.
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>

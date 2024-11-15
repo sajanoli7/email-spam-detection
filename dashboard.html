@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spam Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='nav.css') }}">
+</head>
+
+<body>
+    <ul>
+        <li><img src="{{ url_for('static', filename='slider-img.png') }}" class="animated-image" width="90%"
+                alt="Animated Image"></li><br>
+        <li><a href="{{ url_for('display_email') }}">Check by email</a></li><br>
+        <li><a href="{{ url_for('dashboard') }}">Check by message</a></li>
+        <br>
+        <li><a href="{{ url_for('login') }}">Log out</a></li>
+    </ul>
+    <div class="main">
+        <div class="container" id="dash">
+            <header>
+                <h1>Email Spam Classifier</h1>
+            </header><br><br>
+            <a href="{{ url_for('display_email') }}" class="login-btn">
+                <h2>Check via Email</h2>
+            </a><br><br>
+            <h2>Check via message</h2>
+            <form method="post" action="{{ url_for('dashboard') }}">
+                <textarea id="input_sms" name="input_sms" rows="4" cols="50">{{ input_sms }}</textarea><br>
+                <input class="button" type="submit" value="Predict">
+            </form>
+            {% if prediction %}
+            <h2>{{ prediction }}</h2>
+            {% endif %}
+
+        </div>
+    </div>
+    <script>
+        const ratingSlider = document.getElementById("ratingSlider");
+        const ratingValue = document.getElementById("ratingValue");
+
+        ratingSlider.addEventListener("input", function () {
+            ratingValue.textContent = this.value;
+        });
+    </script>
+</body>
+
+</html>
